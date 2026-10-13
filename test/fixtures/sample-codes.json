@@ -1,0 +1,73 @@
+{
+ "image": "sample-bags.jpg",
+ "width": 2576,
+ "height": 1940,
+ "codes": [
+  {
+   "format": "DataMatrix",
+   "text": "[)>\u001e06\u001dP4713-RM04F1003CT-ND\u001d1PRM04F1003CT\u001d30P4713-RM04F1003CT-ND\u001dK\u001d1K100196620\u001d10K128622820\u001d9D2535\u001d1T2133110\u001d11K1\u001d4LTH\u001dQ15\u001d11ZPICK\u001d12Z22461402\u001d13Z999999\u001d20Z00000000000000000000000000000000000000000000000000000000000000000000000000000\u001e\u0004",
+   "position": {
+    "topLeft": {
+     "x": 1115,
+     "y": 466
+    },
+    "topRight": {
+     "x": 883,
+     "y": 445
+    },
+    "bottomRight": {
+     "x": 906,
+     "y": 213
+    },
+    "bottomLeft": {
+     "x": 1138,
+     "y": 231
+    }
+   }
+  },
+  {
+   "format": "QRCode",
+   "text": "{pbn:PICK2607050009,on:WM2607050083,pc:C6186,pm:AMS1117-3.3,qty:5,mc:,cc:1,pdi:223572726,hp:21,wc:ZH}",
+   "position": {
+    "topLeft": {
+     "x": 1799,
+     "y": 505
+    },
+    "topRight": {
+     "x": 1591,
+     "y": 515
+    },
+    "bottomRight": {
+     "x": 1566,
+     "y": 291
+    },
+    "bottomLeft": {
+     "x": 1773,
+     "y": 287
+    }
+   }
+  },
+  {
+   "format": "QRCode",
+   "text": "{pbn:PICK2607050009,on:WM2607050083,pc:C496579,pm:BW915JWX105-10KJ,qty:2,mc:,cc:1,pdi:223572742,hp:null,wc:ZH}",
+   "position": {
+    "topLeft": {
+     "x": 1461,
+     "y": 1660
+    },
+    "topRight": {
+     "x": 1242,
+     "y": 1677
+    },
+    "bottomRight": {
+     "x": 1210,
+     "y": 1466
+    },
+    "bottomLeft": {
+     "x": 1431,
+     "y": 1442
+    }
+   }
+  }
+ ]
+}

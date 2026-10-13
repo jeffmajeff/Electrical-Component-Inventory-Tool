@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#14161a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Parts Scanner</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM14 19h2M19 14h2"/></svg>
+      <span>Parts Scanner</span>
+    </div>
+    <div class="view-switch" role="tablist">
+      <button role="tab" id="tab-photo" aria-selected="true">Photo</button>
+      <button role="tab" id="tab-inv" aria-selected="false">Inventory <span id="inv-count" class="count"></span></button>
+    </div>
+    <button id="menu-btn" class="icon-btn" aria-label="More">
+      <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+    </button>
+  </header>
+
+  <div id="menu" class="menu" hidden>
+    <button data-act="export-csv">Export table as CSV</button>
+    <button data-act="backup">Back up inventory (JSON)</button>
+    <button data-act="restore">Restore backup…</button>
+    <label class="menu-toggle"><input type="checkbox" id="opt-ocr" checked> Read label text (OCR)</label>
+    <button data-act="clear" class="danger">Clear inventory…</button>
+    <div class="menu-foot">Everything runs on this device. Photos never leave your phone.</div>
+  </div>
+
+  <section class="actions">
+    <label class="btn primary">
+      <svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+      Take photo
+      <input type="file" id="file-camera" accept="image/*" capture="environment" hidden>
+    </label>
+    <label class="btn">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m3 16 5-5 4 4 3-3 6 6"/><circle cx="15.5" cy="8.5" r="1.5"/></svg>
+      Choose photo
+      <input type="file" id="file-photo" accept="image/*" hidden>
+    </label>
+    <label class="btn">
+      <svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 12h7M9 16h7"/></svg>
+      Load BOM
+      <input type="file" id="file-bom" accept=".csv,.tsv,.txt,.xlsx,.xls,text/csv" hidden>
+    </label>
+  </section>
+
+  <section id="viewer-wrap" class="viewer-wrap empty">
+    <div id="viewer" class="viewer">
+      <div id="stage" class="stage">
+        <svg id="overlay" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+      <div id="empty-hint" class="empty-hint">
+        <p><strong>Lay your component bags out flat</strong>, labels facing up, and take one photo.</p>
+        <p>DigiKey, Mouser and LCSC labels are read automatically.</p>
+      </div>
+      <div id="status" class="status" hidden><span class="spinner"></span><span id="status-text"></span></div>
+    </div>
+    <div class="viewer-tools">
+      <span id="photo-caption" class="caption"></span>
+      <button id="save-btn" class="btn small primary" hidden>Save to inventory</button>
+      <button id="zoom-reset" class="icon-btn small" aria-label="Fit photo" title="Fit photo">
+        <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <section id="bom-panel" class="bom-panel" hidden>
+    <div class="bom-head">
+      <button id="bom-toggle" class="bom-title" aria-expanded="false">
+        <span id="bom-name"></span>
+        <span id="bom-summary" class="bom-summary"></span>
+      </button>
+      <button id="bom-clear" class="icon-btn small" aria-label="Remove BOM" title="Remove BOM">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <ul id="bom-lines" class="bom-lines" hidden></ul>
+  </section>
+
+  <section class="controls">
+    <div class="search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg>
+      <input id="search" type="search" placeholder="Search MPN, value, description…" autocomplete="off">
+    </div>
+    <div id="chips" class="chips" role="toolbar" aria-label="Filter by type"></div>
+    <div class="sort-row">
+      <label class="check"><input type="checkbox" id="group-type" checked> Group by type</label>
+      <label class="check" id="bom-only-wrap" hidden><input type="checkbox" id="bom-only"> BOM parts only</label>
+      <label class="sort">Sort
+        <select id="sort">
+          <option value="value">Value</option>
+          <option value="package">Package</option>
+          <option value="voltage">Voltage</option>
+          <option value="tolerance">Tolerance</option>
+          <option value="qty">Quantity</option>
+          <option value="mpn">MPN</option>
+          <option value="num">Photo position</option>
+        </select>
+      </label>
+    </div>
+  </section>
+
+  <main id="list" class="list" aria-live="polite"></main>
+
+  <input type="file" id="file-restore" accept="application/json,.json" hidden>
+  <div id="toast" class="toast" hidden></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

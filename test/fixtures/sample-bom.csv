@@ -1,0 +1,6 @@
+"Reference","Qty","Value","Footprint","MPN","LCSC"
+"R1,R2,R7","3","100k","Resistor_SMD:R_0402_1005Metric","RM04F1003CT",""
+"U1","1","AMS1117-3.3","Package_TO_SOT_SMD:SOT-223-3_TabPin2","AMS1117-3.3","C6186"
+"R3","1","100k","Resistor_SMD:R_0402_1005Metric","RC0402FR-07100KL",""
+"C1,C2","2","100nF","Capacitor_SMD:C_0402_1005Metric","GRM155R71C104KA88D",""
+"D1","1","LED","LED_SMD:LED_0603_1608Metric","150060VS75000",""

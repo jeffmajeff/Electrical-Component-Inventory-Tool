@@ -1,0 +1,11 @@
+{
+  "name": "electrical-component-inventory-tool",
+  "private": true,
+  "type": "module",
+  "description": "Phone web app that inventories electronic components from photos of distributor bags.",
+  "scripts": {
+    "test": "node --test test/unit.test.mjs",
+    "test:e2e": "python3 test/e2e/run.py",
+    "serve": "python3 -m http.server 8000 --directory web"
+  }
+}
